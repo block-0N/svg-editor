@@ -1,0 +1,13 @@
+appId: com.example.svgeditor
+productName: SVG Editor
+directories:
+  output: release
+files:
+  - dist/**/*
+  - electron/**/*
+win:
+  target: nsis
+mac:
+  target: dmg
+linux:
+  target: AppImage
