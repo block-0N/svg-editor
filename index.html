@@ -1,13 +1,204 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="zh-CN">
+
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>svg-editor</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <title>SVG Editor · 轻量级矢量绘图工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0e0e10;
+            color: #e8e8ea;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(13, 153, 255, 0.12), transparent 45%),
+                radial-gradient(circle at 80% 70%, rgba(230, 126, 34, 0.08), transparent 45%);
+        }
+
+        .wrap {
+            max-width: 780px;
+            width: 100%;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #0d99ff;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 54px;
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff 30%, #0d99ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .lead {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #a0a0a6;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 56px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: transform 0.12s, background 0.15s, border-color 0.15s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #0d99ff;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #38adff;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border-color: #333;
+            color: #e8e8ea;
+        }
+
+        .btn-secondary:hover {
+            background: #1a1a1c;
+            border-color: #444;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding-top: 32px;
+            border-top: 1px solid #1e1e20;
+        }
+
+        .feature h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e8e8ea;
+            margin-bottom: 6px;
+        }
+
+        .feature p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #8c8c92;
+        }
+
+        .foot {
+            margin-top: 48px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .foot a {
+            color: #8c8c92;
+            text-decoration: none;
+        }
+
+        .foot a:hover {
+            color: #0d99ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="logo">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M2 4.5 L8 1.5 L14 4.5 L8 7.5 Z" />
+                <path d="M2 8 L8 11 L14 8" />
+                <path d="M2 11.5 L8 14.5 L14 11.5" />
+            </svg>
+            SVG EDITOR
+        </div>
+
+        <h1>在浏览器里，<br />画你想画。</h1>
+
+        <p class="lead">
+            轻量级 SVG 矢量绘图工具。矩形、圆形、椭圆、直线、多边形、星形、画笔，
+            拖动、旋转、缩放、图层管理，导入导出 SVG，全都在一个页面里完成。
+        </p>
+
+        <div class="actions">
+            <a class="btn btn-primary" href="./app.html">
+                ⚡ 快速体验
+            </a>
+            <a class="btn btn-secondary" href="https://github.com/block-0N/svg-editor/releases">
+                ⬇ 下载桌面版
+            </a>
+            <a class="btn btn-secondary" href="https://github.com/block-0N/svg-editor">
+                ★ 查看源码
+            </a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>7 种图形</h3>
+                <p>矩形、圆形、椭圆、直线、正多边形、星形、自由路径</p>
+            </div>
+            <div class="feature">
+                <h3>快捷键齐全</h3>
+                <p>V/R/O/E/L/P/S/B 切换工具，Ctrl+Z 撤销，Ctrl+C/V 复制粘贴</p>
+            </div>
+            <div class="feature">
+                <h3>导入导出</h3>
+                <p>支持标准 SVG 导入，导出 SVG 与高分辨率 PNG</p>
+            </div>
+            <div class="feature">
+                <h3>深色主题</h3>
+                <p>类似 VSCode / Figma 的深色界面，专注创作</p>
+            </div>
+        </div>
+
+        <div class="foot">
+            <a href="https://github.com/block-0N/svg-editor">GitHub</a>
+            ·
+            <a href="https://github.com/block-0N/svg-editor/releases">Releases</a>
+            ·
+            MIT License
+        </div>
+    </div>
+</body>
+
 </html>

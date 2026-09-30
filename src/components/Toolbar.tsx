@@ -1,10 +1,8 @@
 import type { Tool } from '../App';
 import {
-    CircleIcon,
-    CursorIcon,
-    RedoIcon,
-    SquareIcon,
-    UndoIcon,
+    CursorIcon, SquareIcon, CircleIcon, EllipseIcon, LineIcon,
+    PolygonIcon, StarIcon, PencilIcon, EyedropperIcon, EraserIcon,
+    UndoIcon, RedoIcon,
 } from './icons';
 
 interface Props {
@@ -16,37 +14,34 @@ interface Props {
     onRedo: () => void;
 }
 
+const TOOLS: { id: Tool; label: string; icon: React.ReactNode; key: string }[] = [
+    { id: 'select', label: '选择', icon: <CursorIcon />, key: 'V' },
+    { id: 'rect', label: '矩形', icon: <SquareIcon />, key: 'R' },
+    { id: 'circle', label: '圆形', icon: <CircleIcon />, key: 'O' },
+    { id: 'ellipse', label: '椭圆', icon: <EllipseIcon />, key: 'E' },
+    { id: 'line', label: '直线', icon: <LineIcon />, key: 'L' },
+    { id: 'polygon', label: '多边形', icon: <PolygonIcon />, key: 'P' },
+    { id: 'star', label: '星形', icon: <StarIcon />, key: 'S' },
+    { id: 'path', label: '画笔', icon: <PencilIcon />, key: 'B' },
+    { id: 'eyedropper', label: '吸管', icon: <EyedropperIcon />, key: 'I' },
+    { id: 'eraser', label: '橡皮擦', icon: <EraserIcon />, key: 'X' },
+];
+
 export default function Toolbar({
-    tool,
-    onToolChange,
-    canUndo,
-    canRedo,
-    onUndo,
-    onRedo,
+    tool, onToolChange, canUndo, canRedo, onUndo, onRedo,
 }: Props) {
     return (
         <aside className="toolbar">
-            <button
-                className={tool === 'select' ? 'active' : ''}
-                onClick={() => onToolChange('select')}
-                title="选择 (V)"
-            >
-                <CursorIcon />
-            </button>
-            <button
-                className={tool === 'rect' ? 'active' : ''}
-                onClick={() => onToolChange('rect')}
-                title="矩形 (R)"
-            >
-                <SquareIcon />
-            </button>
-            <button
-                className={tool === 'circle' ? 'active' : ''}
-                onClick={() => onToolChange('circle')}
-                title="圆形 (O)"
-            >
-                <CircleIcon />
-            </button>
+            {TOOLS.map((t) => (
+                <button
+                    key={t.id}
+                    className={tool === t.id ? 'active' : ''}
+                    onClick={() => onToolChange(t.id)}
+                    title={`${t.label} (${t.key})`}
+                >
+                    {t.icon}
+                </button>
+            ))}
 
             <div className="toolbar-divider" />
 

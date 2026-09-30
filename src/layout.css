@@ -1,0 +1,522 @@
+/* ═══ Panel 通用 ═══════════════════════════ */
+.panel-wrap {
+    background: var(--bg-panel);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: opacity 0.12s;
+    min-width: 0;
+    min-height: 0;
+}
+
+.panel-wrap.dragging {
+    opacity: 0.4;
+}
+
+.panel-titlebar {
+    height: 26px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    user-select: none;
+    flex-shrink: 0;
+    cursor: grab;
+}
+
+.panel-titlebar:active {
+    cursor: grabbing;
+}
+
+.panel-grip {
+    color: var(--text-muted);
+    font-size: 9px;
+    line-height: 1;
+    letter-spacing: -2px;
+    opacity: 0.6;
+}
+
+.panel-title {
+    flex: 1;
+}
+
+.panel-title-extra {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.panel-body {
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+    min-width: 0;
+}
+
+.panel-body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.panel-body::-webkit-scrollbar-thumb {
+    background: #3c3c3c;
+    border-radius: 4px;
+}
+
+/* ═══ Workspace 结构 ══════════════════════ */
+.workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    min-height: 0;
+}
+
+.workspace-middle {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ═══ Dock 通用 ═══════════════════════════ */
+.dock {
+    display: flex;
+    flex-shrink: 0;
+    background: var(--bg-panel);
+    overflow: hidden;
+    position: relative;
+}
+
+.dock-top,
+.dock-bottom {
+    flex-direction: row;
+}
+
+.dock-top {
+    border-bottom: 1px solid var(--border);
+}
+
+.dock-bottom {
+    border-top: 1px solid var(--border);
+}
+
+.dock-left,
+.dock-right {
+    flex-direction: column;
+}
+
+.dock-left {
+    border-right: 1px solid var(--border);
+}
+
+.dock-right {
+    border-left: 1px solid var(--border);
+}
+
+/* 面板默认等分（无显式尺寸时） */
+.dock-top>.panel-wrap,
+.dock-bottom>.panel-wrap {
+    flex: 1 1 0;
+    min-width: 140px;
+    border-right: 1px solid var(--border);
+}
+
+.dock-top>.panel-wrap:last-child,
+.dock-bottom>.panel-wrap:last-child {
+    border-right: none;
+}
+
+.dock-left>.panel-wrap,
+.dock-right>.panel-wrap {
+    flex: 1 1 0;
+    min-height: 100px;
+    border-bottom: 1px solid var(--border);
+}
+
+.dock-left>.panel-wrap:last-child,
+.dock-right>.panel-wrap:last-child {
+    border-bottom: none;
+}
+
+/* 工具栏面板无显式尺寸时：按内容自适应 */
+.dock-top>.panel-wrap[data-panel-id='toolbar']:not([style*='flex']),
+.dock-bottom>.panel-wrap[data-panel-id='toolbar']:not([style*='flex']) {
+    flex: 0 0 240px;
+}
+
+/* ═══ 工具栏网格 ═══════════════════════════ */
+.panel-wrap[data-panel-id='toolbar'] .panel-body {
+    display: block;
+    padding: 8px 10px;
+    overflow: hidden;
+}
+
+.panel-wrap[data-panel-id='toolbar'] .toolbar {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 34px);
+    grid-auto-rows: 34px;
+    gap: 3px;
+    background: transparent;
+    padding: 0;
+    border: none;
+    width: 100%;
+    flex: none;
+    align-content: flex-start;
+    justify-content: flex-start;
+}
+
+.panel-wrap[data-panel-id='toolbar'] .toolbar button {
+    width: 34px;
+    height: 34px;
+    border-radius: 5px;
+}
+
+.panel-wrap[data-panel-id='toolbar'] .toolbar-divider {
+    display: none;
+}
+
+/* ═══ 内容面板基础 padding ═════════════════ */
+.panel-wrap[data-panel-id='canvasSize'] .panel-body,
+.panel-wrap[data-panel-id='properties'] .panel-body,
+.panel-wrap[data-panel-id='layers'] .panel-body {
+    padding: 10px 12px;
+}
+
+/* ═══════════════════════════════════════════
+   顶部 / 底部 dock：属性面板横向流动
+   ═══════════════════════════════════════════ */
+.dock-top .panel-wrap[data-panel-id='properties'] .panel-body,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .panel-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 8px 14px;
+    padding: 10px 14px;
+    overflow: auto;
+}
+
+/* 字段卡片：固定宽度不压缩 */
+.dock-top .panel-wrap[data-panel-id='properties'] .field,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .field {
+    flex: 0 0 auto;
+    width: 150px;
+    margin-bottom: 0;
+    gap: 6px;
+}
+
+.dock-top .panel-wrap[data-panel-id='properties'] .field label,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .field label {
+    width: 42px;
+}
+
+/* 色板块：占满整行，label 左、颜色行中、色板右 */
+.dock-top .panel-wrap[data-panel-id='properties'] .field-block,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .field-block {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.dock-top .panel-wrap[data-panel-id='properties'] .field-block>label,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .field-block>label {
+    width: 42px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+}
+
+.dock-top .panel-wrap[data-panel-id='properties'] .color-picker,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .color-picker {
+    flex-direction: row;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    gap: 8px;
+}
+
+.dock-top .panel-wrap[data-panel-id='properties'] .color-row,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .color-row {
+    flex: 0 0 auto;
+    width: 130px;
+}
+
+/* 色板：每列固定 18px，自动换行 */
+.dock-top .panel-wrap[data-panel-id='properties'] .swatch-grid,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .swatch-grid {
+    flex: 1;
+    min-width: 0;
+    grid-template-columns: repeat(auto-fill, 18px);
+    gap: 3px;
+}
+
+.dock-top .panel-wrap[data-panel-id='properties'] .action-row,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .action-row {
+    flex: 0 0 auto;
+    width: 220px;
+    margin-top: 0;
+}
+
+.dock-top .panel-wrap[data-panel-id='properties'] .empty,
+.dock-bottom .panel-wrap[data-panel-id='properties'] .empty {
+    padding: 4px 0;
+}
+
+/* ═══════════════════════════════════════════
+   顶部 / 底部 dock：画布面板
+   ═══════════════════════════════════════════ */
+.dock-top .panel-wrap[data-panel-id='canvasSize'] .panel-body,
+.dock-bottom .panel-wrap[data-panel-id='canvasSize'] .panel-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 8px 14px;
+    padding: 10px 14px;
+    overflow: auto;
+}
+
+.dock-top .panel-wrap[data-panel-id='canvasSize'] .field,
+.dock-bottom .panel-wrap[data-panel-id='canvasSize'] .field {
+    flex: 0 0 auto;
+    width: 170px;
+    margin-bottom: 0;
+}
+
+.dock-top .panel-wrap[data-panel-id='canvasSize'] .preset-row,
+.dock-bottom .panel-wrap[data-panel-id='canvasSize'] .preset-row {
+    flex: 0 0 auto;
+    width: 320px;
+    margin-top: 0;
+}
+
+/* ═══════════════════════════════════════════
+   顶部 / 底部 dock：图层面板
+   ═══════════════════════════════════════════ */
+.dock-top .panel-wrap[data-panel-id='layers'] .panel-body,
+.dock-bottom .panel-wrap[data-panel-id='layers'] .panel-body {
+    padding: 8px 12px;
+    overflow: auto;
+}
+
+.dock-top .panel-wrap[data-panel-id='layers'] .layer-list,
+.dock-bottom .panel-wrap[data-panel-id='layers'] .layer-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    max-height: none;
+    overflow: visible;
+}
+
+.dock-top .panel-wrap[data-panel-id='layers'] .layer-item,
+.dock-bottom .panel-wrap[data-panel-id='layers'] .layer-item {
+    width: 180px;
+    flex: 0 0 auto;
+}
+
+/* ═══ Resizer ═════════════════════════════ */
+.resizer {
+    background: transparent;
+    transition: background 0.12s;
+    user-select: none;
+    z-index: 20;
+}
+
+.resizer:hover,
+.resizer:active {
+    background: rgba(13, 153, 255, 0.55);
+}
+
+.resizer-dock-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+}
+
+.resizer-dock-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+}
+
+.resizer-dock-left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+}
+
+.resizer-dock-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 4px;
+}
+
+.resizer-panel-horizontal {
+    width: 4px;
+    height: 100%;
+    flex-shrink: 0;
+    background: var(--border);
+}
+
+.resizer-panel-horizontal:hover,
+.resizer-panel-horizontal:active {
+    background: rgba(13, 153, 255, 0.55);
+}
+
+.resizer-panel-vertical {
+    height: 4px;
+    width: 100%;
+    flex-shrink: 0;
+    background: var(--border);
+}
+
+.resizer-panel-vertical:hover,
+.resizer-panel-vertical:active {
+    background: rgba(13, 153, 255, 0.55);
+}
+
+/* ═══ 拖拽热区 ═══════════════════════════ */
+.dock-zones {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.dock-zone {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.dock-zone-top {
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 22%;
+}
+
+.dock-zone-bottom {
+    bottom: 0;
+    left: 25%;
+    right: 25%;
+    height: 22%;
+}
+
+.dock-zone-left {
+    left: 0;
+    top: 22%;
+    bottom: 22%;
+    width: 22%;
+}
+
+.dock-zone-right {
+    right: 0;
+    top: 22%;
+    bottom: 22%;
+    width: 22%;
+}
+
+.dock-zone-inner {
+    padding: 6px 14px;
+    background: rgba(13, 153, 255, 0.12);
+    border: 2px dashed rgba(13, 153, 255, 0.45);
+    border-radius: 6px;
+    color: #0d99ff;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.75;
+    transition: all 0.15s;
+}
+
+.dock-zone.hovered .dock-zone-inner {
+    background: rgba(13, 153, 255, 0.35);
+    border-style: solid;
+    border-color: #0d99ff;
+    color: #fff;
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* ═══ 视图菜单 ═══════════════════════════ */
+.menu-popup-wide {
+    min-width: 340px;
+    padding: 8px;
+}
+
+.view-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+}
+
+.view-row+.view-row {
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    margin-top: 4px;
+}
+
+.view-label {
+    width: 56px;
+    flex-shrink: 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.view-positions {
+    display: flex;
+    flex: 1;
+    gap: 2px;
+}
+
+.view-positions button {
+    flex: 1;
+    padding: 4px 2px;
+    background: var(--bg-input);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+
+.view-positions button:hover {
+    background: #464646;
+    color: var(--text-primary);
+}
+
+.view-positions button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
