@@ -7,7 +7,12 @@ function createWindow() {
     const win = new BrowserWindow({
         width: 1280,
         height: 800,
+        minWidth: 900,
+        minHeight: 600,
         title: 'SVG Editor',
+        icon: path.join(__dirname, '../build/icon.ico'),
+        backgroundColor: '#1e1e1e',
+        show: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.cjs'),
             contextIsolation: true,
@@ -15,10 +20,12 @@ function createWindow() {
         },
     });
 
+    win.once('ready-to-show', () => win.show());
+
     if (isDev) {
-        win.loadURL('http://localhost:5173');
+        win.loadURL('http://localhost:5173/app.html');
     } else {
-        win.loadFile(path.join(__dirname, '../dist/index.html'));
+        win.loadFile(path.join(__dirname, '../dist/app.html'));
     }
 }
 

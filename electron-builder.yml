@@ -2,12 +2,44 @@ appId: com.example.svgeditor
 productName: SVG Editor
 directories:
   output: release
+  buildResources: build
+
 files:
   - dist/**/*
   - electron/**/*
+  - build/icon.ico
+  - package.json
+
+extraMetadata:
+  main: electron/main.cjs
+
 win:
-  target: nsis
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: build/icon.ico
+  artifactName: ${productName}-Setup-${version}.${ext}
+
 mac:
   target: dmg
+  identity: null
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
 linux:
   target: AppImage
+  artifactName: ${productName}-${version}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: SVG Editor
+  runAfterFinish: true
+  deleteAppDataOnUninstall: true
+  installerLanguages:
+    - zh_CN
+    - en_US
+  language: "2052"
