@@ -1,7 +1,9 @@
 {
   "name": "svg-editor",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "A lightweight SVG drawing editor built with React + Vite",
+  "author": "block-0N",
   "type": "module",
   "main": "electron/main.cjs",
   "scripts": {
